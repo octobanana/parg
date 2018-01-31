@@ -24,6 +24,7 @@ set (CMAKE_EXE_LINKER_FLAGS_DEBUG ${GCOV_FLAGS})
 message ("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
 
 include_directories(
+  ./include
   ./src
   ./
 )
