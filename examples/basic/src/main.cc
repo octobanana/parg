@@ -1,26 +1,3 @@
-# Parg
-A header only c++ library for parsing command line arguments and generating usage/help output.  
-
-### Features
-Parg has the following features:  
-* short flags/options
-* long flags/options
-* default values
-* positional arguments
-* [--] arguments
-* piped stdin
-* usage output
-* help output
-* version output
-* helpful parsing error output
-* clean and formatted --help output
-
-## Install
-Copy __parg.hh__ into your projects directory, or run the install script and add `#include <ob/parg.hh>` to your source file.  
-
-## Usage
-Let's write a program that will accept the flags for help and version info, a string option called file, and an integer option called num.  
-```cpp
 #include "parg.hh"
 
 #include <string>
@@ -104,40 +81,3 @@ int main(int argc, char *argv[])
 
   return 0;
 }
-```
-
-Running it with the -h flag will ouput:
-```
-app -h
-app:
-  an example of parg
-
-Usage:
-  app [-v|-h]
-
-Flags:
-  -h, --help
-    print the help output
-  -v, --version
-    print the program version
-
-Options:
-  -f, --file=<string>
-    the file to read from
-  -n, --num=<int>
-    an integer value
-
-Author:
-  octobanana
-```
-
-## Examples
-See the __examples__ directory.  
-Compile and run each example with:  
-```bash
-mkdir -p build
-cd build
-cmake ../
-make
-./app
-```

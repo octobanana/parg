@@ -1,9 +1,7 @@
 cmake_minimum_required (VERSION 3.8 FATAL_ERROR)
 
-set (TARGET "$ENV{APP}")
+set (TARGET "app")
 project (${TARGET})
-
-# set (CMAKE_CXX_COMPILER "clang++")
 
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -24,7 +22,7 @@ set (CMAKE_EXE_LINKER_FLAGS_DEBUG ${GCOV_FLAGS})
 message ("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
 
 include_directories(
-  ./include
+  ../../include
   ./src
   ./
 )
@@ -45,5 +43,3 @@ add_executable (
 target_link_libraries (
   ${TARGET}
 )
-
-# install (TARGETS ${TARGET} DESTINATION "$ENV{HOME}/bin")
