@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+
+printf "Installing\n"
+mkdir -vp /usr/include/ob
+cp -vr ./include/. /usr/include/ob/
+printf "Success\n"
