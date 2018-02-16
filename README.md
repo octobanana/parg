@@ -45,8 +45,9 @@ int main(int argc, char *argv[])
 
   // add help and version flags
   // default value for flags is false
-  // flags and options must have both a long and short name
+  // flags and options can have either a long and short name, or a long name.
   // pg.set(<long,short>, <description>);
+  // pg.set(<long>, <description>);
   pg.set("help,h", "print the help output");
   pg.set("version,v", "print the program version");
 

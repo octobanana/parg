@@ -290,13 +290,22 @@ public:
     std::string delim {","};
     if (_name.find(delim) != std::string::npos)
     {
+      bool has_short {false};
+      std::string _long;
+      std::string _short;
+
       auto const names = delimit(_name, delim);
-      // must have 'long,short' formatted names
-      assert(names.size() == 2);
-      // short name must be one char
-      assert(names.at(1).size() == 1);
-      std::string const& _long {names.at(0)};
-      std::string const& _short {names.at(1)};
+      assert(names.size() >= 1 && names.size() <= 2);
+      _long = names.at(0);
+
+      if (names.size() == 2) has_short = true;
+      if (has_short)
+      {
+        // short name must be one char
+        assert(names.at(1).size() == 1);
+        _short = names.at(1);
+      }
+
       flags_[_short] = _long;
       data_[_long].long_ = _long;
       data_[_long].short_ = _short;
@@ -324,13 +333,22 @@ public:
     std::string delim {","};
     if (_name.find(delim) != std::string::npos)
     {
+      bool has_short {false};
+      std::string _long;
+      std::string _short;
+
       auto const names = delimit(_name, delim);
-      // must have 'long,short' formatted names
-      assert(names.size() == 2);
-      // short name must be one char
-      assert(names.at(1).size() == 1);
-      std::string const& _long {names.at(0)};
-      std::string const& _short {names.at(1)};
+      assert(names.size() >= 1 && names.size() <= 2);
+      _long = names.at(0);
+
+      if (names.size() == 2) has_short = true;
+      if (has_short)
+      {
+        // short name must be one char
+        assert(names.at(1).size() == 1);
+        _short = names.at(1);
+      }
+
       flags_[_short] = _long;
       data_[_long].long_ = _long;
       data_[_long].short_ = _short;
