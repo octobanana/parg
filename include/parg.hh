@@ -35,8 +35,6 @@
 #include <string>
 #include <unistd.h>
 #include <sys/ioctl.h>
-#include <streambuf>
-#include <iomanip>
 
 namespace OB
 {
