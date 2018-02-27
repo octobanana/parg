@@ -22,6 +22,9 @@
 // SOFTWARE.
 //
 
+#ifndef OB_PARG_HH
+#define OB_PARG_HH
+
 #include <cstdlib>
 #include <cassert>
 #include <sstream>
@@ -559,3 +562,5 @@ private:
   }
 }; // class Parg
 } // namespace OB
+
+#endif // OB_PARG_HH
