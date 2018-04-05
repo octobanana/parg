@@ -18,6 +18,13 @@ Parg has the following features:
 ## Install
 Copy __parg.hh__ into your projects directory, or run the install script and add `#include <ob/parg.hh>` to your source file.  
 
+The following shell commands will install the project:  
+```bash
+git clone <repo_name>
+cd <repo_name>
+./install.sh
+```
+
 ## Usage
 Let's write a program that will accept the flags for help and version info, a string option called file, and an integer option called num.  
 ```cpp
@@ -45,9 +52,10 @@ int main(int argc, char *argv[])
 
   // add help and version flags
   // default value for flags is false
-  // flags and options can have either a long and short name, or a long name.
+  // flags and options can have either a long and short name, a long name, or a short name.
   // pg.set(<long,short>, <description>);
-  // pg.set(<long>, <description>);
+  // pg.set(<long>, <description>); where long is more than one char
+  // pg.set(<short>, <description>); where short is one char
   pg.set("help,h", "print the help output");
   pg.set("version,v", "print the program version");
 
@@ -67,12 +75,13 @@ int main(int argc, char *argv[])
   if (status < 0)
   {
     // handle parsing error
-    std::cout << pg.print_help() << "\n";
+    std::cout << pg.help() << "\n";
     std::cout << "Error: " << pg.error() << "\n";
     return 1;
   }
 
   // flags and options are accessed with their long name
+  // or short if they don't have a long name
   if (pg.get<bool>("help"))
   {
     // handle -h and --help
@@ -83,7 +92,7 @@ int main(int argc, char *argv[])
   if (pg.get<bool>("version"))
   {
     // handle -v and --version
-    std::cout << pg.print_version();
+    std::cout << pg.name() << " v" << pg.version() << "\n";
     return 0;
   }
 
@@ -91,12 +100,12 @@ int main(int argc, char *argv[])
   // if it wasn't found, the default parameter given will be returned with pg.get("file");
   if (pg.find("file"))
   {
-    std::string file {pg.get<std::string>("file")};
+    std::string file {pg.get("file")};
     std::cout << "file: " << file << "\n";
   }
   else
   {
-    std::cout << "file: " << pg.get("file") << "\n";
+    std::cout << "using default file: " << pg.get("file") << "\n";
   }
 
   // print out the num value
@@ -134,11 +143,12 @@ Author:
 
 ## Examples
 See the __examples__ directory.  
+
 Compile and run each example with:  
 ```bash
 mkdir -p build
 cd build
-cmake ../
+cmake -DCMAKE_BUILD_TYPE=Debug ../
 make
 ./app
 ```
