@@ -67,12 +67,12 @@ int main(int argc, char *argv[])
   // if it wasn't found, the default parameter given will be returned with pg.get("file");
   if (pg.find("file"))
   {
-    std::string file {pg.get<std::string>("file")};
+    std::string file {pg.get("file")};
     std::cout << "file: " << file << "\n";
   }
   else
   {
-    std::cout << "file: " << pg.get("file") << "\n";
+    std::cout << "using default file: " << pg.get("file") << "\n";
   }
 
   // print out the num value
