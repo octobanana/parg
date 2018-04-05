@@ -14,7 +14,10 @@ int program_options(OB::Parg& pg)
   pg.usage("[-v|--version]");
   pg.usage("[-h|--help]");
   pg.info("Exit Codes", {"0 -> normal", "1 -> error"});
-  pg.info("Examples", {"app -v", "app -h", "app -help", "app --version"});
+  pg.info("Examples", {
+    pg.name() + " --help",
+    pg.name() + " --version",
+  });
   pg.author("name <email>");
 
   // set options
@@ -41,20 +44,20 @@ int program_options(OB::Parg& pg)
   if (status < 0)
   {
     // handle parsing error
-    std::cout << pg.print_help() << "\n";
+    std::cout << pg.help() << "\n";
     std::cout << "Error: " << pg.error() << "\n";
     return -1;
   }
   if (pg.get<bool>("help"))
   {
     // handle -h and --help
-    std::cout << pg.print_help();
+    std::cout << pg.help();
     return 1;
   }
   if (pg.get<bool>("version"))
   {
     // handle -v and --version
-    std::cout << pg.print_version();
+    std::cout << pg.name() << " v" << pg.version() << "\n";
     return 1;
   }
   return 0;
@@ -91,7 +94,7 @@ int main(int argc, char *argv[])
   }
   else
   {
-    std::cout << pg.print_help() << "\n";
+    std::cout << pg.help() << "\n";
     std::cout << "Error: " << "'option_required' is required" << "\n";
     return -1;
   }

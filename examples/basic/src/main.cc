@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
   if (status < 0)
   {
     // handle parsing error
-    std::cout << pg.print_help() << "\n";
+    std::cout << pg.help() << "\n";
     std::cout << "Error: " << pg.error() << "\n";
     return 1;
   }
@@ -52,14 +52,14 @@ int main(int argc, char *argv[])
   if (pg.get<bool>("help"))
   {
     // handle -h and --help
-    std::cout << pg.print_help();
+    std::cout << pg.help();
     return 0;
   }
 
   if (pg.get<bool>("version"))
   {
     // handle -v and --version
-    std::cout << pg.print_version();
+    std::cout << pg.name() << " v" << pg.version() << "\n";
     return 0;
   }
 
