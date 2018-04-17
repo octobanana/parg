@@ -41,9 +41,9 @@ namespace OB
 class Parg
 {
 public:
-  Parg(int _argc, char** _argv):
-    argc_ {_argc}
+  Parg(int _argc, char** _argv)
   {
+    argc_ = _argc;
     argvf(_argv);
   }
 
@@ -362,7 +362,7 @@ public:
   };
 
 private:
-  int argc_;
+  int argc_ {0};
   std::vector<std::string> argv_;
   std::string name_;
   std::string version_;
@@ -370,7 +370,7 @@ private:
   std::string description_;
   std::string modes_;
   std::string options_;
-  int options_indent_;
+  int options_indent_ {0};
   std::vector<info_pair> info_;
   std::string author_;
   std::map<std::string, Option> data_;
@@ -378,7 +378,7 @@ private:
   bool is_positional_ {false};
   std::string positional_;
   std::string stdin_;
-  bool is_stdin_;
+  bool is_stdin_ {false};
   int status_ {0};
   std::string error_;
 
