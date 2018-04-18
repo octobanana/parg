@@ -41,6 +41,10 @@ namespace OB
 class Parg
 {
 public:
+  Parg()
+  {
+  }
+
   Parg(int _argc, char** _argv)
   {
     argc_ = _argc;
@@ -169,6 +173,117 @@ public:
     }
     status_ = parse_args(argc_, argv_);
     return status_;
+  }
+
+  int parse(int argc, char** argv)
+  {
+    if (is_stdin_)
+    {
+      pipe_stdin();
+    }
+    argc_ = argc;
+    argvf(argv);
+    status_ = parse_args(argc_, argv_);
+    return status_;
+  }
+
+  int parse(std::string str)
+  {
+    auto args = str_to_args(str);
+    status_ = parse_args(args.size(), args);
+    return status_;
+  }
+
+  std::vector<std::string> str_to_args(std::string const& str)
+  {
+    std::vector<std::string> args;
+
+    std::string const backslash {"\\"};
+
+    // parse str into arg vector as if it was parsed by the shell
+    for (size_t i = 0; i < str.size(); ++i)
+    {
+      std::string e {str.at(i)};
+
+      // default
+      if (e.find_first_not_of(" \n\t\"'") != std::string::npos)
+      {
+        bool escaped {false};
+        size_t start {i};
+        args.emplace_back("");
+        for (;i < str.size(); ++i)
+        {
+          e = str.at(i);
+          if (! escaped && e.find_first_of(" \n\t") != std::string::npos)
+          {
+            --i; // put back unmatched char
+            break;
+          }
+          else if (e == backslash)
+          {
+            escaped = true;
+          }
+          else if (escaped)
+          {
+            args.back() += e;
+            escaped = false;
+          }
+          else
+          {
+            args.back() += e;
+          }
+        }
+        continue;
+      }
+
+      // whitespace
+      else if (e.find_first_of(" \n\t") != std::string::npos)
+      {
+        for (;i < str.size(); ++i)
+        {
+          e = str.at(i);
+          if (e.find_first_not_of(" \n\t") != std::string::npos)
+          {
+            --i; // put back unmatched char
+            break;
+          }
+        }
+        continue;
+      }
+
+      // string
+      else if (e.find_first_of("\"'") != std::string::npos)
+      {
+        std::string quote {e};
+        bool escaped {false};
+        ++i; // skip start quote
+        args.emplace_back("");
+        size_t start {i};
+        for (;i < str.size(); ++i)
+        {
+          e = str.at(i);
+          if (! escaped && e == quote)
+          {
+            break;
+            // skip end quote
+          }
+          else if (e == backslash)
+          {
+            escaped = true;
+          }
+          else if (escaped)
+          {
+            args.back() += e;
+            escaped = false;
+          }
+          else
+          {
+            args.back() += e;
+          }
+        }
+      }
+    }
+    return args;
   }
 
   void set(std::string _name, std::string _info)
