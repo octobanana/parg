@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
   if (pg.get<bool>("help"))
   {
     // handle -h and --help
-    std::cout << pg.print_help();
+    std::cout << pg.help();
     return 0;
   }
 
