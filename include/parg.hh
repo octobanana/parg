@@ -437,7 +437,22 @@ public:
 
   std::string get_pos() const
   {
-    return positional_;
+    std::string str;
+    if (positional_vec_.empty())
+    {
+      return str;
+    }
+    for (auto const& e : positional_vec_)
+    {
+      str += e + " ";
+    }
+    str.pop_back();
+    return str;
+  }
+
+  std::vector<std::string> get_pos_vec() const
+  {
+    return positional_vec_;
   }
 
   Parg& set_stdin(bool const _stdin = true)
@@ -492,6 +507,7 @@ private:
   std::map<std::string, std::string> flags_;
   bool is_positional_ {false};
   std::string positional_;
+  std::vector<std::string> positional_vec_;
   std::string stdin_;
   bool is_stdin_ {false};
   int status_ {0};
@@ -549,14 +565,7 @@ private:
 
       if (dashdash)
       {
-        if (positional_.size() == 0)
-        {
-          positional_.append(tmp);
-        }
-        else
-        {
-          positional_.append(" " + tmp);
-        }
+        positional_vec_.emplace_back(tmp);
         continue;
       }
 
@@ -699,14 +708,7 @@ private:
         }
         else
         {
-          if (positional_.size() == 0)
-          {
-            positional_.append(tmp);
-          }
-          else
-          {
-            positional_.append(" " + tmp);
-          }
+          positional_vec_.emplace_back(tmp);
         }
       }
       else
